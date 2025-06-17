@@ -27,7 +27,7 @@ import axios from 'axios'
 
 const title = ref('')
 const content = ref('')
-const diaries = ref([]) // ← 追加：日記の一覧を格納
+const diaries = ref([]) // ← 追加：日記の一覧を格納ko
 
 const submit = async () => {
   const payload = {
