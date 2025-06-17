@@ -73,30 +73,107 @@ const formatDate = (iso) => {
 
 <style scoped>
 .form-container {
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 320px;
+  margin: 30px auto;
   padding: 16px;
-  background-color: #f7f7f7;
-  border-radius: 8px;
+  background-color: #dcdcdc; /* 灰色ベース */
+  border: 4px solid #2a2a2a;
+  box-shadow: 6px 6px 0 #000;
+  font-family: monospace;
+  color: #111;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: left;
+  image-rendering: pixelated;
 }
+
+h2 {
+  font-size: 16px;
+  color: #b00000;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #b00000;
+  padding-bottom: 4px;
+  letter-spacing: 1px;
+}
+
 input,
 textarea {
   width: 100%;
   margin-bottom: 12px;
   padding: 8px;
-  font-size: 16px;
+  background: #fff;
+  color: #000;
+  font-family: monospace;
+  font-size: 14px;
+  border: 2px solid #333;
+  box-shadow: inset 2px 2px 0 #999;
+  outline: none;
+  resize: none;
 }
+
+textarea {
+  height: 100px;
+}
+
 button {
-  padding: 8px 16px;
-  font-size: 16px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0;
+  background-color: #b00000;
+  color: #fff;
+  font-family: monospace;
+  font-size: 14px;
+  border: 3px solid #4d0000;
+  box-shadow: 3px 3px 0 #000;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: transform 0.1s ease-in-out;
 }
+
+button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+hr {
+  border: none;
+  border-top: 2px dashed #444;
+  margin: 24px 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
 .diary-item {
   margin-bottom: 20px;
   padding: 10px;
-  border-bottom: 1px solid #ccc;
+  background: #fff;
+  border: 2px solid #2a2a2a;
+  box-shadow: 3px 3px 0 #000;
+  font-family: monospace;
 }
+
+.diary-item h3 {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #b00000;
+}
+
+.diary-item p {
+  font-size: 13px;
+  color: #000;
+}
+
+.diary-item small {
+  display: block;
+  text-align: right;
+  font-size: 11px;
+  color: #666;
+  margin-top: 6px;
+  font-style: italic;
+}
+
 </style>
