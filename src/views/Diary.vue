@@ -1,47 +1,73 @@
 <template>
   <div class="form-container">
-    <h2>日記投稿</h2> <!-- タイトルを「記事投稿」→「日記投稿」に変更 -->
+    <h2>日記投稿</h2>
 
-    <!-- タイトル入力 -->
+    <!-- 投稿フォーム -->
     <input v-model="title" placeholder="タイトル" />
-
-    <!-- 日記本文入力 -->
     <textarea v-model="content" placeholder="本文（今日の出来事など）"></textarea>
-
-    <!-- 送信ボタン -->
     <button @click="submit">送信</button>
+
+    <hr />
+
+    <!-- 日記一覧表示 -->
+    <h2>日記一覧</h2>
+    <ul>
+      <li v-for="diary in diaries" :key="diary.id" class="diary-item">
+        <h3>{{ diary.title }}</h3>
+        <p>{{ diary.content }}</p>
+        <small>{{ formatDate(diary.createdAt) }}</small>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-// タイトルと本文（content）をrefで定義
 const title = ref('')
-const content = ref('') // ← body を content に名称変更（より意味的に適切なため）
+const content = ref('')
+const diaries = ref([]) // ← 追加：日記の一覧を格納
 
-// 送信処理
 const submit = async () => {
-  // APIに送信するJSONデータ
   const payload = {
     title: title.value,
-    content: content.value, // ← content に合わせてキーも修正
-    createdAt: new Date().toISOString() // ← 投稿日時を追加（APIが受け付ければ）
+    content: content.value,
+    createdAt: new Date().toISOString()
   }
 
   try {
-    // ポート番号は自分のASP.NET Coreアプリに合わせて調整
-    await axios.post('https://localhost:7277/api/diary', payload) // ← URLはあなたのAPIに合わせて変更
+    await axios.post('http://localhost:7277/api/diary', payload)
     alert('登録完了')
-
-    // 入力フォームをリセット
     title.value = ''
     content.value = ''
+    await fetchDiaries() // ← 送信後に再取得
   } catch (e) {
     console.error('登録エラー', e)
     alert('登録に失敗しました')
   }
+}
+
+// ← 追加：日記をAPIから取得する処理
+const fetchDiaries = async () => {
+  try {
+    const res = await axios.get('http://localhost:7277/api/diary')
+    diaries.value = res.data
+  } catch (e) {
+    console.error('取得エラー', e)
+    alert('日記の取得に失敗しました')
+  }
+}
+
+// ← 追加：マウント時に取得
+onMounted(() => {
+  fetchDiaries()
+})
+
+// ← 追加：日付を見やすくする関数
+const formatDate = (iso) => {
+  const d = new Date(iso)
+  return d.toLocaleString()
 }
 </script>
 
@@ -67,5 +93,10 @@ button {
   color: white;
   border: none;
   border-radius: 4px;
+}
+.diary-item {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 </style>
